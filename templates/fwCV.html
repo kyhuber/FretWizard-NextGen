@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FretWizard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="{{ url_for('static', filename='js/fwShared.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/fwCV.js') }}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <h1>FretWizard</h1>
+    <h2>Chord Visualizer</h2>
+    
+    <div id="chordControls">
+        <div class="control-group">
+            <label for="keySelect">Key:</label>
+            <select id="keySelect" class="keySelect">
+                <option value="">Select Key</option>
+                {% for note in all_notes %}
+                    <option value="{{ note }}">{{ note }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="control-group">
+            <label for="chordTypeSelect">Chord Type:</label>
+            <select id="chordTypeSelect">
+                <option value="">Select Chord Type</option>
+                {% for chord_type, notes in chord_types.items() %}
+                    <option value="{{ chord_type }}">{{ chord_type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>  
+
+    <table class="fretwizard">
+        <thead>
+            <tr>
+                <th>Drag</th> <!-- Header for drag handle -->
+                <th>String</th>
+                {% for fret in range(15) %}
+                    <th>{{ fret }}</th>
+                {% endfor %}
+                <th>Snap It</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for string in default_tuning %}
+                <tr id="string-{{ loop.index }}" draggable="true">
+                    <td class="drag-handle">&#x2630;</td> <!-- Drag handle cell -->
+                    <td>
+                        <select class="note-input" data-string="{{ loop.index }}">
+                            <option value="">"--"</option>
+                            {% for note in all_notes %}
+                                <option value="{{ note }}" {% if string == note %}selected{% endif %}>{{ note }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    {% for fret in range(15) %}
+                        <td class="string-container" data-note="{{ get_note_at_fret(string, fret) }}"></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="text-align: left;">
+        <button id="addStringButton" style="margin-top: 10px;">Add String</button>
+    </div>
+    
+</body>
+</html>
