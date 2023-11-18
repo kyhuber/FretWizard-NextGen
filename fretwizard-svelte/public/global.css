@@ -61,3 +61,15 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+.collapsed {
+	display: none; /* Hide the panel by default */
+	opacity: 0; /* Make it fully transparent */
+	transform: translateY(-20px); /* Move it up */
+	transition: opacity 0.3s ease, transform 0.3s ease; /* Add smooth transitions */
+  }
+  
+.collapsed:hover {
+opacity: 1; /* Show the panel when hovering */
+transform: translateY(0); /* Move it back to its original position */
+}

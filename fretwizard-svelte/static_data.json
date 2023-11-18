@@ -1,23 +1,23 @@
 {
     "instruments": ["Guitar","Bass","Banjo","Mandolin","Ukelele"],
     "allNotes": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
-    "scaleType": ["Major", "Minor"],
-    "scaleIntervals": {
-        "Major": [2, 2, 1, 2, 2, 2, 1],
-        "Minor": [2, 1, 2, 2, 1, 2, 2]
-    },
-    
+    "scaleType": ["Major", "Minor"],    
 
     "instrumentStrings": {
-        "guitar": ["E", "B", "G", "D", "A", "E"],
-        "bass": ["G", "D", "A", "E"],
-        "banjo": ["D", "B", "G", "D", "G"],
-        "mandolin": ["E", "A", "D", "G"],
-        "ukelele": ["G","C","E","A"]
+        "Guitar": ["E", "B", "G", "D", "A", "E"],
+        "Bass": ["G", "D", "A", "E"],
+        "Banjo": ["D", "B", "G", "D", "G"],
+        "Mandolin": ["E", "A", "D", "G"],
+        "Ukelele": ["G","C","E","A"]
+    },
+
+    "scaleIntervals": {
+        "major_scale_intervals": [2, 2, 1, 2, 2, 2, 1],
+        "minor_scale_intervals": [2, 1, 2, 2, 1, 2, 2]
     },
 
     "tuningOptions": {
-        "guitar": [
+        "Guitar": [
             {
                 "name": "Standard",
                 "notes": ["E", "A", "D", "G", "B", "E"]
@@ -31,7 +31,13 @@
                 "notes": ["D", "G", "D", "G", "B", "D"]
             }
         ],
-        "banjo": [
+        "Bass": [
+            {
+                "name": "Standard",
+                "notes": ["E", "A", "D", "G", "B", "E"]
+            }
+        ],
+        "Banjo": [
             {
                 "name": "Standard",
                 "notes": ["D", "B", "G", "D", "G"]
@@ -45,7 +51,7 @@
                 "notes": ["G", "D", "G", "B", "D"]
             }
         ],
-        "mandolin": [
+        "Mandolin": [
             {
                 "name": "Standard",
                 "notes": ["E", "A", "D", "G"]
@@ -58,6 +64,12 @@
                 "name": "Open D",
                 "notes": ["D", "A", "D", "A"]
             }
+        ],
+        "Ukelele": [
+        {
+            "name": "Standard",
+            "notes": ["G","C","E","A"]
+        }
         ]
     },
 

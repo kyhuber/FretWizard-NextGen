@@ -1,6 +1,6 @@
 <script>
 	import InstrumentSetup from '../components/InstrumentSetup.svelte';
-	import { Router, Link } from 'svelte-routing'
+	import { Route, Router, Link } from 'svelte-routing'
   </script>
   
   <main>
