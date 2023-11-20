@@ -16,6 +16,14 @@
         "minor_scale_intervals": [2, 1, 2, 2, 1, 2, 2]
     },
 
+    "numFrets": {
+        "Guitar": 24,
+        "Bass": 24,
+        "Banjo": 22,
+        "Mandolin": 20,
+        "Ukulele": 15
+    },
+
     "tuningOptions": {
         "Guitar": [
             {
