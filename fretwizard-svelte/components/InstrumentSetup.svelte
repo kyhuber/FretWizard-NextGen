@@ -2,6 +2,10 @@
 <script>
   import ScaleVisualizer from './ScaleVisualizer.svelte';
   import { Router } from 'svelte-routing';
+  import { context } from 'svelte';
+
+  // Define the router variable
+  let router = context.router;
 
   import staticData from "../static_data.json";
   const instruments = staticData.instruments;
@@ -13,9 +17,11 @@
   function selectInstrument(event) {
     selectedInstrument = event.target.value;
 
-    if (selectedInstrument in staticData.instrumentStrings) {
-      tuningOptions = staticData.instrumentStrings[selectedInstrument].map(option => option.name);
+    // Populate the tuning options based on the selected instrument
+    if (selectedInstrument) {
+      tuningOptions = staticData.tuningOptions[selectedInstrument].map(option => option.name);
     } else {
+      selectedTuning = '';
       tuningOptions = [];
     }
   }
@@ -28,6 +34,7 @@
   }
 
   function continueToScaleVisualizer() {
+    // Use the router to navigate
     router.push(`/scale-visualizer/${selectedInstrument}/${selectedTuning}`);
   }
 
@@ -76,9 +83,3 @@
     Continue to Scale Visualizer
   </button>
 </div>
-
-<!-- HTML template -->
-<form on:submit={handleSubmit}>
-  <input type="text" bind:value={selectedTuning} />
-  <button type="submit">Submit</button>
-</form>

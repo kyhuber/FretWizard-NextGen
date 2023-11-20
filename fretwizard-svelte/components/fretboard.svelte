@@ -1,29 +1,106 @@
 <!-- Fretboard.svelte -->
 <script>
     import { onMount } from "svelte";
+    import { Router } from 'svelte-routing';
     export let selectedInstrument;
     export let selectedTuning;
     export let selectedKey;
     export let selectedScale;
-  
+
     let fretboardNotes = [];
-  
+
+    // Define the tuningOptions object based on your JSON data
+    let tuningOptions = {};
+
     // Function to update the fretboardNotes array
     function updateFretboardNotes() {
-      // Clear the existing fretboardNotes array
-      fretboardNotes = [];
-  
-      // Loop through the frets and strings to populate the fretboardNotes array
-      for (let stringIndex = 0; stringIndex < NUM_STRINGS; stringIndex++) {
-        for (let fretIndex = 0; fretIndex <= NUM_FRETS; fretIndex++) {
-          // Calculate the note at this position based on the instrument and tuning
-          const noteAtPosition = mapNoteAtPosition(stringIndex, fretIndex, selectedInstrument, selectedTuning);
-  
-          // Push the note to the fretboardNotes array
-          fretboardNotes.push({ string: stringIndex, fret: fretIndex, note: noteAtPosition });
+        // Clear the existing fretboardNotes array
+        fretboardNotes = [];
+
+        // Loop through the frets and strings to populate the fretboardNotes array
+        for (let stringIndex = 0; stringIndex < NUM_STRINGS; stringIndex++) {
+            for (let fretIndex = 0; fretIndex <= NUM_FRETS; fretIndex++) {
+                // Calculate the note at this position based on the instrument and tuning
+                const noteAtPosition = mapNoteAtPosition(stringIndex, fretIndex);
+
+                // Push the note to the fretboardNotes array
+                fretboardNotes.push({ string: stringIndex, fret: fretIndex, note: noteAtPosition });
+            }
         }
-      }
     }
+
+    // Call the updateFretboardNotes function when the component mounts and whenever selectedInstrument or selectedTuning changes
+    onMount(updateFretboardNotes);
+    $: {
+        updateFretboardNotes();
+    }
+
+    // Function to calculate the note at a position based on the selected instrument and tuning
+    function mapNoteAtPosition(stringIndex, fretIndex) {
+        if (selectedInstrument in tuningOptions) {
+            const notes = tuningOptions[selectedInstrument];
+            if (fretIndex < notes.length) {
+                return notes[stringIndex];
+            }
+        }
+        return "undefined";
+    }
+
+    $: {
+        if (selectedInstrument) {
+            tuningOptions = staticData.tuningOptions[selectedInstrument] || {};
+        }
+    }
+</script>
+
+<div class="fretboard">
+    <!-- Create a table to represent the fretboard -->
+    <table class="fretboard-table">
+        <thead>
+            <!-- Create a row for fret numbers -->
+            <tr>
+                {#each Array(...Array(NUM_FRETS + 1)) as index}
+                    <th>{index}</th>
+                {/each}
+            </tr>
+        </thead>
+        <tbody>
+                <!-- Create rows for strings and display notes -->
+                {#each Array(NUM_STRINGS) as stringIndex}
+                <tr>
+                <th>{selectedTuning[stringIndex]}</th>
+                {#each Array(NUM_FRETS + 1) as fretIndex}
+                    <td>{getNoteForPosition(stringIndex, fretIndex)}</td>
+                {/each}
+                </tr>
+                {/each}          
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<style>
+    /* Add your CSS styles here */
+</style>
+
+  
+// Function to update the fretboardNotes array
+// Loop through the frets and strings to populate the fretboardNotes array
+    function updateFretboardNotes() {
+        for (let stringIndex = 0; stringIndex < NUM_STRINGS; stringIndex++) {
+        for (let fretIndex = 0; fretIndex <= NUM_FRETS; fretIndex++) {
+            // Calculate the note at this position based on the instrument and tuning
+            const noteAtPosition = mapNoteAtPosition(stringIndex, fretIndex, selectedInstrument, selectedTuning);
+    
+            // Push the note to the fretboardNotes array
+            fretboardNotes.push({ string: stringIndex, fret: fretIndex, note: noteAtPosition });
+        }
+        }
+    }
+  
+  
   
     // Call the updateFretboardNotes function when the component mounts and whenever selectedInstrument or selectedTuning changes
     onMount(updateFretboardNotes);
