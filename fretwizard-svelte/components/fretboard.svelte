@@ -51,6 +51,7 @@
             tuningOptions = staticData.tuningOptions[selectedInstrument] || {};
         }
     }
+
 </script>
 
 <div class="fretboard">
@@ -84,22 +85,6 @@
 <style>
     /* Add your CSS styles here */
 </style>
-
-  
-// Function to update the fretboardNotes array
-// Loop through the frets and strings to populate the fretboardNotes array
-    function updateFretboardNotes() {
-        for (let stringIndex = 0; stringIndex < NUM_STRINGS; stringIndex++) {
-        for (let fretIndex = 0; fretIndex <= NUM_FRETS; fretIndex++) {
-            // Calculate the note at this position based on the instrument and tuning
-            const noteAtPosition = mapNoteAtPosition(stringIndex, fretIndex, selectedInstrument, selectedTuning);
-    
-            // Push the note to the fretboardNotes array
-            fretboardNotes.push({ string: stringIndex, fret: fretIndex, note: noteAtPosition });
-        }
-        }
-    }
-  
   
   
     // Call the updateFretboardNotes function when the component mounts and whenever selectedInstrument or selectedTuning changes

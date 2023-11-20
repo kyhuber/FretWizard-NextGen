@@ -2,10 +2,6 @@
 <script>
   import ScaleVisualizer from './ScaleVisualizer.svelte';
   import { Router } from 'svelte-routing';
-  import { context } from 'svelte';
-
-  // Define the router variable
-  let router = context.router;
 
   import staticData from "../static_data.json";
   const instruments = staticData.instruments;
@@ -34,9 +30,10 @@
   }
 
   function continueToScaleVisualizer() {
-    // Use the router to navigate
-    router.push(`/scale-visualizer/${selectedInstrument}/${selectedTuning}`);
+  // Use the link element to navigate
+  window.location.href = `/scale-visualizer/${selectedInstrument}/${selectedTuning}`;
   }
+
 
   let panelIsCollapsed = true;
 
