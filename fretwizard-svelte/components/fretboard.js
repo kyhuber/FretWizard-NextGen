@@ -3,15 +3,15 @@ import staticData from '../static_data.json';
 
 // Define constants
 const NUM_FRETS = 24; // Maximum number of frets for any instrument
-const NUM_STRINGS = 6; // Maximum number of strings for any instrument
 
 // Initialize variables for user input
 let selectedInstrument = '';
 let selectedTuning = '';
 let selectedKey = '';
 let selectedScaleType = '';
+let numStrings = ''
 
-// Initialize variables for fretboard data
+// Initialize variables for fretboard 
 let fretboard = [];
 
 // Function to populate the fretboard
@@ -26,7 +26,7 @@ function populateFretboard() {
 
   // Get the instrument data
   const instrumentData = staticData.instrumentStrings[selectedInstrument];
-  const numStrings = instrumentData.length;
+  NUM_STRINGS = numStrings;
 
   // Get the tuning data
   const tuningOptions = staticData.tuningOptions[selectedInstrument];
@@ -100,6 +100,12 @@ function getNextNoteInScale(currentNote, interval) {
     const currentIndex = allNotes.indexOf(currentNote);
     const nextIndex = (currentIndex + interval) % allNotes.length;
     return allNotes[nextIndex];
+}
+
+// Function to get any note at position
+function getNoteForPosition(stringIndex, fretIndex) {
+  const noteInfo = fretboardNotes.find(note => note.string === stringIndex && note.fret === fretIndex);
+  return noteInfo ? noteInfo.note : '';
 }
 
 // Event listener for when user selects an instrument

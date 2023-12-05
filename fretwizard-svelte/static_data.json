@@ -13,7 +13,18 @@
 
     "scaleIntervals": {
         "major_scale_intervals": [2, 2, 1, 2, 2, 2, 1],
-        "minor_scale_intervals": [2, 1, 2, 2, 1, 2, 2]
+        "minor_scale_intervals": [2, 1, 2, 2, 1, 2, 2],
+        "dorian_scale_intervals": [2, 1, 2, 2, 2, 1, 2],
+        "major_pentatonic_scale_intervals": [2, 2, 3, 2],
+        "minor_pentatonic_scale_intervals": [3, 2, 2, 3]
+    },
+
+    "numStrings": {
+        "Guitar": 6,
+        "Bass": 4,
+        "Banjo": 5,
+        "Mandolin": 4,
+        "Ukulele": 4
     },
 
     "numFrets": {

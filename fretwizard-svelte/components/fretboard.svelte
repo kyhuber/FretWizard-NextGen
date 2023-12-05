@@ -2,14 +2,14 @@
 <script>
     import { onMount } from "svelte";
     import { Router } from 'svelte-routing';
-    import { populateFretboard, calculateDots } from "./fretboard.js"
+    import { populateFretboard, calculateDots, getNoteForPosition } from "./fretboard.js"
 
     export let selectedInstrument;
     export let selectedTuning;
-    export let selectedKey;
-    export let selectedScale;
+    // export let selectedKey;
+    // export let selectedScale;
     export let NUM_FRETS = 18;
-
+    export let NUM_STRINGS = 6;
 
     let fretboardNotes = [];
     let tuningOptions = {};
@@ -35,17 +35,6 @@
     onMount(updateFretboardNotes);
     $: {
         updateFretboardNotes();
-    }
-
-    // Function to calculate the note at a position based on the selected instrument and tuning
-    function mapNoteAtPosition(stringIndex, fretIndex) {
-        if (selectedInstrument in tuningOptions) {
-            const notes = tuningOptions[selectedInstrument];
-            if (fretIndex < notes.length) {
-                return notes[stringIndex];
-            }
-        }
-        return "undefined";
     }
 
     $: {
@@ -82,7 +71,7 @@
                         <td>{getNoteForPosition(stringIndex, fretIndex)}</td>
                     {/each}
                 </tr>
-                {/each}          
+                {/each}         
         </tbody>
     </table>
 </div>
@@ -108,11 +97,11 @@
 }
 
 /* Style the dot */
-.dot {
-    width: 10px; /* Adjust the dot size as needed */
-    height: 10px; /* Adjust the dot size as needed */
-    background-color: red; /* Set the dot color */
-    border-radius: 50%; /* Make the dot circular */
-    margin: auto; /* Center-align the dot within the cell */
-}
+/* .dot {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    margin: auto;
+} */
 </style>
