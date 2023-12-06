@@ -1,6 +1,6 @@
 <!-- App.svelte -->
 <script>
-    import { Router, Link } from 'svelte-routing';
+    import { Router, Route, Link, navigate } from 'svelte-routing';
     import InstrumentSetup from './InstrumentSetup.svelte';
     import ScaleVisualizer from './ScaleVisualizer.svelte';
 </script>
@@ -11,6 +11,6 @@
 </nav>
 
 <Router>
-    <InstrumentSetup path="/" />
-    <ScaleVisualizer path="/scale-visualizer/:numberOfStrings/:tuning" />
+    <Route path="/" component={InstrumentSetup} />
+    <Route path="/scale-visualizer/:instrument/:tuning" component={ScaleVisualizer} />
 </Router>

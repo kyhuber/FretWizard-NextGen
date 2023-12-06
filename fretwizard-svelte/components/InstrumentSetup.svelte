@@ -1,11 +1,10 @@
 <!-- InstrumentSetup.svelte -->
 <script>
   import ScaleVisualizer from './ScaleVisualizer.svelte';
-  import { Router } from 'svelte-routing';
-
+  import { Router, navigate } from 'svelte-routing';
   import staticData from "../static_data.json";
-  const instruments = staticData.instruments;
 
+  const instruments = staticData.instruments;
   let selectedInstrument = '';
   let selectedTuning = '';
   let tuningOptions = [];
@@ -22,6 +21,9 @@
     }
   }
 
+  $: {
+    //Force re-render to update the route
+  }
   function handleSubmit(event) {
     event.preventDefault();
     console.log("Selected Instrument:", selectedInstrument);
@@ -30,10 +32,12 @@
   }
 
   function continueToScaleVisualizer() {
-  // Use the link element to navigate
-  window.location.href = `/scale-visualizer/${selectedInstrument}/${selectedTuning}`;
-  }
+    navigate(`/scale-visualizer/${selectedInstrument}/${selectedTuning}`);
+    console.log(`Navigating to: /scale-visualizer/${selectedInstrument}/${selectedTuning}`);
 
+      // Force re-render to update the route
+
+    }
 
   let panelIsCollapsed = true;
 
@@ -47,9 +51,9 @@
   <div class={panelIsCollapsed ? 'collapsed' : ''}>
     <h1>Instrument Setup</h1>
 
-    <label>
+    <label for="selectedInstrument">
       Select an Instrument:
-      <select bind:value={selectedInstrument} on:change={selectInstrument}>
+      <select id="selectedInstrument" name="selectedInstrument" bind:value={selectedInstrument} on:change={selectInstrument}>
         <option value="">Select an instrument</option>
         {#each instruments as instrument}
           <option value={instrument}>{instrument}</option>
@@ -57,9 +61,9 @@
       </select>
     </label>
 
-    <label>
+    <label for="selectedTuning">
       Select a Tuning:
-      <select bind:value={selectedTuning}>
+      <select id="selectedTuning" name="selectedTuning" bind:value={selectedTuning}>
         <option value="">Select a tuning</option>
         {#each tuningOptions as tuningOption}
           <option value={tuningOption}>{tuningOption}</option>

@@ -1,7 +1,7 @@
 {
     "instruments": ["Guitar","Bass","Banjo","Mandolin","Ukelele"],
     "allNotes": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
-    "scaleType": ["Major", "Minor"],    
+    "scaleType": ["Major", "Minor", "Dorian", "Major Pentatonic", "Minor Pentatonic"],    
 
     "instrumentStrings": {
         "Guitar": ["E", "B", "G", "D", "A", "E"],

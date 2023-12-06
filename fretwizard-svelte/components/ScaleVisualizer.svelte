@@ -1,84 +1,91 @@
 <!-- ScaleVisualizer.svelte -->
 <script>
-    import { onMount } from "svelte";
-    import { populateFretboard, calculateDots } from "./fretboard.js";
-    
-    // Define constants
-    const NUM_FRETS = 24; // Maximum number of frets for any instrument
-    const NUM_STRINGS = 6; // Maximum number of strings for any instrument
-    
-    // Initialize variables for user input
-    let selectedKey = '';
-    let selectedScaleType = '';
-    
-    // Initialize variables for dot positions
-    let dotPositions = [];
-    
-    // Function to update dot positions when selectedKey or selectedScaleType changes
-    function updateDotPositions() {
-      // Check if all required input is provided
-      if (!selectedKey || !selectedScaleType) {
-        dotPositions = [];
-        return;
-      }
-      
-      // Calculate dot positions based on the selected key and scale type
-      dotPositions = calculateDots(selectedKey, selectedScaleType);
-    }
-    
+  import { onMount } from 'svelte';
+  import { populateFretboard, calculateDots } from './fretboard.js';
+  import staticData from '../static_data.json';
 
-    function shouldDisplayDot(stringIndex, fretIndex) {
-      return dotPositions.some(dot => dot.string === stringIndex && dot.fret === fretIndex);
-    }
+  export let instrument;
+  export let tuning;
 
+  const NUM_FRETS = 24; // Maximum number of frets for any instrument
+  const NUM_STRINGS = 6; // Maximum number of strings for any instrument
 
-    // Call the updateDotPositions function when the component mounts and whenever selectedKey or selectedScaleType changes
-    onMount(updateDotPositions);
-    $: {
-      updateDotPositions();
-    }
-  </script>
+  let selectedKey = staticData.allNotes[0]; // Default to the first note
+  let selectedScaleType = staticData.scaleType[0]; // Default to the first scale type
+
+  let fretboardData = [];
+  let dotPositions = [];
+
+  function updateFretboard() {
+    fretboardData = populateFretboard(instrument, tuning, selectedKey, selectedScaleType);
+    updateDotPositions();
+  }
+
+  function updateDotPositions() {
+    dotPositions = calculateDots(selectedKey, selectedScaleType);
+  }
+
+  function shouldDisplayDot(stringIndex, fretIndex) {
+    return dotPositions.some(dot => dot.string === stringIndex && dot.fret === fretIndex);
+  }
+
+  onMount(updateFretboard);
+  $: updateFretboard();
+</script>
   
   <div>
     <h1>Scale Visualizer</h1>
-    
-    <!-- Display selected key and scale type -->
-    <p>Selected Key: {selectedKey}</p>
-    <p>Selected Scale Type: {selectedScaleType}</p>
+  
+    <div class="selections">
+      <label>
+        Select Key:
+        <select bind:value={selectedKey}>
+          {#each staticData.allNotes as note}
+            <option value={note}>{note}</option>
+          {/each}
+        </select>
+      </label>
+  
+      <label>
+        Select Scale Type:
+        <select bind:value={selectedScaleType}>
+          {#each staticData.scaleType as scaleType}
+            <option value={scaleType}>{scaleType}</option>
+          {/each}
+        </select>
+      </label>
+    </div>
     
     <!-- Fretboard display with highlighted dots -->
     <div class="fretboard">
-      <!-- Create a table to represent the fretboard -->
       <table class="fretboard-table">
         <thead>
-          <!-- Create a row for fret numbers -->
           <tr>
-            {#each Array(NUM_FRETS + 1).fill() as _, index}
-              <th>{index}</th>
+            <th></th> <!-- Empty header for string labels -->
+            {#each Array(NUM_FRETS + 1).fill() as _, fretIndex}
+              <th>{fretIndex}</th>
             {/each}
           </tr>
-
         </thead>
         <tbody>
-          {#each Array(NUM_STRINGS).fill() as _, stringIndex}
+          {#each fretboardData as stringNotes, stringIndex}
             <tr>
-              {#each Array(NUM_FRETS + 1).fill() as _, fretIndex}
-                <!-- Add logic to determine if a dot should be displayed -->
-                {#if shouldDisplayDot(stringIndex, fretIndex)}
-                  <td class="dot-cell">
-                    <!-- You can style the dot with CSS -->
-                    <div class="dot"></div>
-                  </td>
-                {:else}
-                  <td></td>
-                {/if}
+              <th>{stringIndex + 1}</th> <!-- Label for string number -->
+              {#each stringNotes as note, fretIndex}
+                <td class:dot-cell={shouldDisplayDot(stringIndex, fretIndex)}>
+                  {#if shouldDisplayDot(stringIndex, fretIndex)}
+                    <div class="dot"></div> <!-- Dot is displayed here -->
+                  {:else}
+                    {note} <!-- Display the note -->
+                  {/if}
+                </td>
               {/each}
             </tr>
           {/each}
         </tbody>
-        
       </table>
     </div>
+    
   </div>
   
   <style>
