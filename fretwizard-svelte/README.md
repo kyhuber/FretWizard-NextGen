@@ -3,18 +3,12 @@
 *Svelte Components*
 - app
 - InstrumentSetup
-  - selectInstrument
-  - continueToScaleVisualizer
-  - togglePanel
+  - Defines: selectInstrument, continueToScaleVisualizer, togglePanel
 - ScaleVisualizer
-  - updateFretboard
-  - updateDotPositions
-  - shouldDisplayDot
+  - Imports: populateFretboard, calculateDots
+  - Defines: updateFretboard, updateDotPositions, shouldDisplayDot
 - TuningSelector
 - fretboard.svelte
-  - updateFretboardNotes
+  - Defines: updateFretboardNotes
 - fretboard.js
-  - calculateDots
-  - findStringForNote
-  - getNoteForPosition
-  - getsNextNoteInScale
+  - Defines: calculateDots, findStringForNote, getNoteForPosition, getsNextNoteInScale
